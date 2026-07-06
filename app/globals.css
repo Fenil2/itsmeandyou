@@ -1,0 +1,353 @@
+@import "tailwindcss";
+
+:root {
+  /* Palette sampled from the "It's Me & You - Spazio di Cura" logo */
+  --ink: #163030;
+  --ink-soft: #3d5656;
+  --teal: #40bcb7;
+  --teal-deep: #17565b;
+  --teal-press: #0f4245;
+  --blue: #2571b4;
+  --blue-deep: #1a5a94;
+  --blue-press: #144877;
+  --gold: #c99a3c;
+  --gold-soft: #edd9a3;
+  --coral: #e0912f;
+  --coral-deep: #b5701c;
+  --mist: #e5f6f5;
+  --mist-deep: #c8efed;
+  --paper: #fbfaf6;
+}
+
+@theme inline {
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-teal: var(--teal);
+  --color-teal-deep: var(--teal-deep);
+  --color-teal-press: var(--teal-press);
+  --color-blue: var(--blue);
+  --color-blue-deep: var(--blue-deep);
+  --color-blue-press: var(--blue-press);
+  --color-gold: var(--gold);
+  --color-gold-soft: var(--gold-soft);
+  --color-coral: var(--coral);
+  --color-coral-deep: var(--coral-deep);
+  --color-mist: var(--mist);
+  --color-mist-deep: var(--mist-deep);
+  --color-paper: var(--paper);
+  --font-body: var(--font-inter), system-ui, sans-serif;
+  --font-display: var(--font-fraunces), Georgia, serif;
+  --font-cormorant: var(--font-cormorant), Georgia, serif;
+  --font-dmsans: var(--font-dmsans), system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply overflow-x-hidden bg-paper font-body text-ink antialiased;
+    line-height: 1.6;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display font-semibold leading-[1.08];
+  }
+
+  img {
+    @apply block max-w-full;
+  }
+
+  a {
+    @apply text-inherit no-underline;
+  }
+}
+
+/* Project type scale
+   Shared font-size tokens used across the app. Mobile values are the default;
+   desktop values switch in at the `md` breakpoint (768px). Only font-size is
+   set here so weight, colour, tracking, and line-height remain local. */
+.t-h1 {
+  font-size: 36px;
+}
+
+.t-h2 {
+  font-size: 30px;
+}
+
+.t-h3 {
+  font-size: 24px;
+}
+
+.t-h4 {
+  font-size: 20px;
+}
+
+.t-h5 {
+  font-size: 18px;
+}
+
+.t-h6 {
+  font-size: 16px;
+}
+
+.t-body {
+  font-size: 16px;
+}
+
+.t-small {
+  font-size: 14px;
+}
+
+.t-caption {
+  font-size: 12px;
+}
+
+.t-btn {
+  font-size: 15px;
+}
+
+.t-nav {
+  font-size: 15px;
+}
+
+@media (min-width: 768px) {
+  .t-h1 {
+    font-size: 60px;
+  }
+
+  .t-h2 {
+    font-size: 44px;
+  }
+
+  .t-h3 {
+    font-size: 30px;
+  }
+
+  .t-h4 {
+    font-size: 24px;
+  }
+
+  .t-h5 {
+    font-size: 20px;
+  }
+
+  .t-h6 {
+    font-size: 18px;
+  }
+
+  .t-body {
+    font-size: 18px;
+  }
+
+  .t-small {
+    font-size: 14px;
+  }
+
+  .t-caption {
+    font-size: 13px;
+  }
+
+  .t-btn {
+    font-size: 16px;
+  }
+
+  .t-nav {
+    font-size: 16px;
+  }
+}
+
+/* It's Me & You page
+   Keep the heavier weight treatment for the landing page and scope its
+   typography adjustments here so other routes keep the shared defaults. */
+.imy-page {
+  font-weight: 500;
+}
+
+.imy-page .t-h1 {
+  font-size: 40px;
+}
+
+.imy-page .t-h2 {
+  font-size: 32px;
+}
+
+.imy-page .t-h3 {
+  font-size: 28px;
+}
+
+.imy-page .t-h4 {
+  font-size: 22px;
+}
+
+.imy-page .t-h5 {
+  font-size: 18px;
+}
+
+.imy-page .t-h6 {
+  font-size: 16px;
+}
+
+.imy-page .t-body {
+  font-size: 16px;
+}
+
+.imy-page .t-small {
+  font-size: 14px;
+}
+
+.imy-page .t-caption {
+  font-size: 12px;
+}
+
+.imy-page .t-btn {
+  font-size: 15px;
+}
+
+.imy-page .t-nav {
+  font-size: 15px;
+}
+
+.imy-page .font-light {
+  font-weight: 400;
+}
+
+.imy-page .font-normal {
+  font-weight: 500;
+}
+
+.imy-page .font-medium {
+  font-weight: 600;
+}
+
+@media (min-width: 768px) {
+  .imy-page .t-h1 {
+    font-size: 64px;
+  }
+
+  .imy-page .t-h2 {
+    font-size: 48px;
+  }
+
+  .imy-page .t-h3 {
+    font-size: 32px;
+  }
+
+  .imy-page .t-h4 {
+    font-size: 24px;
+  }
+
+  .imy-page .t-h5 {
+    font-size: 20px;
+  }
+
+  .imy-page .t-h6 {
+    font-size: 18px;
+  }
+
+  .imy-page .t-body {
+    font-size: 18px;
+  }
+
+  .imy-page .t-small {
+    font-size: 14px;
+  }
+
+  .imy-page .t-caption {
+    font-size: 13px;
+  }
+
+  .imy-page .t-btn {
+    font-size: 16px;
+  }
+
+  .imy-page .t-nav {
+    font-size: 16px;
+  }
+}
+
+@keyframes pulse-dot {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.4;
+    transform: scale(0.7);
+  }
+}
+
+@keyframes kenburns-in {
+  from {
+    transform: scale(1) translate(0%, 0%);
+  }
+
+  to {
+    transform: scale(1.13) translate(-1.5%, -0.8%);
+  }
+}
+
+@keyframes kenburns-out {
+  from {
+    transform: scale(1.13) translate(1.5%, 0.8%);
+  }
+
+  to {
+    transform: scale(1) translate(0%, 0%);
+  }
+}
+
+@keyframes marquee-left {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@-webkit-keyframes marquee-left {
+  from {
+    -webkit-transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    -webkit-transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.urgent-marquee {
+  display: inline-flex;
+  width: -webkit-max-content;
+  width: max-content;
+  white-space: nowrap;
+  -webkit-animation: marquee-left 18s linear infinite;
+  animation: marquee-left 18s linear infinite;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  will-change: transform;
+}
+
+.urgent-marquee__item {
+  flex: 0 0 auto;
+  width: 100vw;
+  padding: 0 2rem;
+  text-align: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
