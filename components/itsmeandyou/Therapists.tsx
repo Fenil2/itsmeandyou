@@ -1,4 +1,5 @@
 import { SectionHeading } from "./SectionHeading";
+import Image from "next/image";
 
 // Therapist data with image paths
 const THERAPISTS = [
@@ -68,18 +69,22 @@ export function Therapists() {
               className="rounded-[20px] border border-[rgba(64,188,183,0.2)] bg-white px-6 py-8 text-center shadow-[0_10px_30px_-24px_rgba(23,86,91,0.5)] transition hover:-translate-y-[3px] hover:border-[#1c8f88]"
             >
               <div
-                className="mx-auto mb-5 h-28 w-28 overflow-hidden rounded-full border-2"
+                className="mx-auto mb-5 h-32 w-32 overflow-hidden rounded-full border-2 shadow-md"
                 style={{ borderColor: "#40bcb755" }}
               >
-                <img 
+                <Image 
                   src={t.image} 
                   alt={t.name} 
+                  width={128}
+                  height={128}
                   className="h-full w-full object-cover"
+                  quality={100}
+                  priority={false}
                 />
               </div>
-              <div className="mb-1.5 font-cormorant text-xl font-normal text-[#163030]">{t.name}</div>
-              <div className="mb-2.5 text-sm text-[#1c8f88]">{t.spec}</div>
-              <div className="flex items-center justify-center gap-1 text-sm text-[#8a9694]">
+              <div className="mb-1.5 font-cormorant t-h4 font-normal text-[#163030]">{t.name}</div>
+              <div className="mb-2.5 t-small text-[#1c8f88]">{t.spec}</div>
+              <div className="flex items-center justify-center gap-1 t-small text-[#8a9694]">
                 <span>{t.city}</span>
               </div>
             </div>
@@ -94,18 +99,22 @@ export function Therapists() {
               className="w-full rounded-[20px] border border-[rgba(64,188,183,0.2)] bg-white px-6 py-8 text-center shadow-[0_10px_30px_-24px_rgba(23,86,91,0.5)] transition hover:-translate-y-[3px] hover:border-[#1c8f88]"
             >
               <div
-                className="mx-auto mb-5 h-28 w-28 overflow-hidden rounded-full border-2"
+                className="mx-auto mb-5 h-32 w-32 overflow-hidden rounded-full border-2 shadow-md"
                 style={{ borderColor: "#40bcb755" }}
               >
-                <img 
+                <Image 
                   src={t.image} 
                   alt={t.name} 
+                  width={128}
+                  height={128}
                   className="h-full w-full object-cover"
+                  quality={100}
+                  priority={false}
                 />
               </div>
-              <div className="mb-1.5 font-cormorant text-xl font-normal text-[#163030]">{t.name}</div>
-              <div className="mb-2.5 text-sm text-[#1c8f88]">{t.spec}</div>
-              <div className="flex items-center justify-center gap-1 text-sm text-[#8a9694]">
+              <div className="mb-1.5 font-cormorant t-h4 font-normal text-[#163030]">{t.name}</div>
+              <div className="mb-2.5 t-small text-[#1c8f88]">{t.spec}</div>
+              <div className="flex items-center justify-center gap-1 t-small text-[#8a9694]">
                 <span>{t.city}</span>
               </div>
             </div>
@@ -113,7 +122,7 @@ export function Therapists() {
         </div>
 
         {/* Banner */}
-        <div className="mt-6 rounded-[20px] border border-dashed border-[rgba(64,188,183,0.35)] p-8 text-center text-sm text-[#1c8f88]">
+        <div className="mt-6 rounded-[20px] border border-dashed border-[rgba(64,188,183,0.35)] p-8 text-center t-small text-[#1c8f88]">
           45+ more therapists across India, matched to your needs after booking
         </div>
       </div>

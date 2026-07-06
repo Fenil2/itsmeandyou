@@ -27,13 +27,16 @@ const DAY_NAMES = [
 
 const CLINIC = "Agnes Psychological Clinic";
 
-type Employee = { name: string; title: string; bio?: string };
+// Keep this list in sync with components/itsmeandyou/Therapists.tsx.
+type Employee = { name: string; title: string; image: string; bio?: string };
 const EMPLOYEES: Employee[] = [
-  { name: "Agnes Punitha", title: "Psychologist", bio: "Founder & lead psychologist." },
-  { name: "Akshaya Babu", title: "Psychologist" },
-  { name: "Mumeenul Afrin Farook", title: "Psychologist" },
-  { name: "Prabhu Devan", title: "Psychologist" },
-  { name: "Sakthi J", title: "Psychologist", bio: "“Healing begins when people feel truly heard” I am a caring listener." },
+  { name: "Agnes Punitha", title: "Counselling Psychologist", image: "/punitha.png", bio: "Founder & lead psychologist." },
+  { name: "Mumeenul Afrin", title: "Counselling Psychologist", image: "/mumeenul.png" },
+  { name: "Sakthi", title: "Counselling Psychologist", image: "/sakthi.jpeg" },
+  { name: "Prabu Devan", title: "Counselling Psychologist", image: "/prabu.jpeg" },
+  { name: "Shifana Banu", title: "Counselling Psychologist", image: "/shifana.jpeg" },
+  { name: "Sunitha", title: "Counselor", image: "/sunitha.png" },
+  { name: "Akshaya B", title: "Psychologist", image: "/akshaya.png" },
 ];
 
 // 30-minute slots, 9:30 AM – 4:00 PM
@@ -56,9 +59,6 @@ function daysInMonth(year: number, month: number) {
 }
 function money(n: number) {
   return `${CURRENCY}${n.toFixed(2)}`;
-}
-function initials(name: string) {
-  return name.split(" ").map(w => w[0]).slice(0, 2).join("").toUpperCase();
 }
 
 const STEPS = ["service", "datetime", "cart", "info", "payment"] as const;
@@ -454,8 +454,8 @@ export function BookingModal() {
                         onClick={() => { setEmployee(emp); setEmployeeOpen(false); }}
                         className={`flex w-full items-start gap-3 px-3 py-2.5 text-left transition hover:bg-[#e2f4f2]
                           ${employee?.name === emp.name ? "bg-[#e2f4f2]" : ""}`}>
-                        <span className="grid h-9 w-9 flex-none place-items-center rounded-full bg-[#17565b] t-caption font-semibold text-[#faf7f2]">
-                          {initials(emp.name)}
+                        <span className="grid h-9 w-9 flex-none place-items-center overflow-hidden rounded-full bg-[#17565b]">
+                          <img src={emp.image} alt={emp.name} className="h-full w-full object-cover" />
                         </span>
                         <span className="flex-1">
                           <span className={`block t-body leading-tight ${employee?.name === emp.name ? "font-semibold text-[#17565b]" : "text-[#17565b]"}`}>{emp.name}</span>

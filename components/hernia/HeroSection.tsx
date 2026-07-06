@@ -33,7 +33,7 @@ function VideoModal({ onClose }: { onClose: () => void }) {
       onClick={onClose}
     >
       <button
-        className="flex cursor-pointer items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-[13px] font-semibold text-white backdrop-blur-sm transition-colors hover:bg-white/20"
+        className="flex cursor-pointer items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 t-small font-semibold text-white backdrop-blur-sm transition-colors hover:bg-white/20"
         onClick={onClose}
         aria-label="Close"
       >
@@ -130,11 +130,11 @@ export function HeroSection() {
 
             {/* ① Badge + Headline — mobile order 1 */}
             <div className="flex flex-col items-start max-[900px]:order-1 max-[900px]:w-full">
-              <span className="mb-5 inline-flex items-center gap-2 rounded-full border border-[rgba(66,200,200,0.18)] bg-white px-4 py-2 text-[12.5px] font-bold tracking-[0.04em] text-teal-deep shadow-[0_8px_24px_-16px_rgba(18,110,110,0.5)] max-[620px]:mb-4 max-[620px]:text-[11.5px]">
+              <span className="mb-5 inline-flex items-center gap-2 rounded-full border border-[rgba(66,200,200,0.18)] bg-white px-4 py-2 t-caption font-bold tracking-[0.04em] text-teal-deep shadow-[0_8px_24px_-16px_rgba(18,110,110,0.5)] max-[620px]:mb-4">
                 <span className="h-2 w-2 animate-[pulse-dot_2s_infinite] rounded-full bg-coral" />
                 Watch before you decide what to do
               </span>
-              <h1 className="mb-5 text-[clamp(30px,3.5vw,52px)] font-semibold leading-[1.06] text-ink [text-wrap:balance] max-[620px]:mb-3 max-[620px]:text-[clamp(26px,7vw,36px)]">
+              <h1 className="mb-5 t-h1 font-semibold leading-[1.06] text-ink [text-wrap:balance] max-[620px]:mb-3">
                 Living with a Hernia is a choice you are making{" "}
                 <em className="not-italic text-coral-deep">Every Single Day.</em>
               </h1>
@@ -142,7 +142,7 @@ export function HeroSection() {
 
             {/* ③ Description + CTAs + Trust — mobile order 3 */}
             <div className="flex flex-col items-start max-[900px]:order-3 max-[900px]:w-full max-[900px]:pt-3">
-              <p className="mb-8 max-w-[46ch] text-[clamp(14.5px,1.05vw,16.5px)] leading-[1.75] text-ink-soft max-[620px]:mb-6 max-[620px]:text-[14.5px]">
+              <p className="mb-8 max-w-[46ch] t-body leading-[1.75] text-ink-soft max-[620px]:mb-6">
                 The bulge, the heaviness, the pull when you lift or cough — most
                 people wait months hoping it fades. It does not. A short, honest
                 assessment tells you exactly what you are dealing with and what
@@ -154,7 +154,7 @@ export function HeroSection() {
                   Book My Consultation
                 </a>
                 <button
-                  className="inline-flex cursor-pointer items-center justify-center gap-2.5 rounded-full border border-[rgba(18,110,110,0.2)] bg-transparent px-6 py-[15px] text-base font-bold text-teal-deep transition-all duration-200 hover:-translate-y-0.5 hover:border-[#126e6e] hover:bg-[#f0fafa] active:translate-y-0 max-[620px]:w-full max-[620px]:py-3 max-[620px]:text-sm"
+                  className="inline-flex cursor-pointer items-center justify-center gap-2.5 rounded-full border border-[rgba(18,110,110,0.2)] bg-transparent px-6 py-[15px] t-btn font-bold text-teal-deep transition-all duration-200 hover:-translate-y-0.5 hover:border-[#126e6e] hover:bg-[#f0fafa] active:translate-y-0 max-[620px]:w-full max-[620px]:py-3"
                   onClick={() => setModalOpen(true)}
                 >
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
@@ -165,7 +165,7 @@ export function HeroSection() {
                 </button>
               </div>
 
-              <div className="flex flex-wrap gap-2.5 text-[12.5px] font-semibold text-ink-soft max-[620px]:text-xs">
+              <div className="flex flex-wrap gap-2.5 t-caption font-semibold text-ink-soft">
                 <span className="inline-flex items-center gap-1.5 rounded-full border border-[rgba(22,48,48,0.09)] bg-white px-3 py-1.5 shadow-[0_4px_14px_-8px_rgba(18,110,110,0.3)]">
                   <CheckIcon color="#42c8c8" size={14} /> Minimally invasive approach
                 </span>
@@ -204,7 +204,7 @@ export function HeroSection() {
                 type="button"
                 aria-label={muted ? "Unmute video" : "Mute video"}
                 onClick={() => setMuted((current) => !current)}
-                className="absolute bottom-3 right-3 z-10 flex cursor-pointer items-center gap-1.5 rounded-full border-0 bg-black/40 px-3 py-1.5 text-[11px] font-semibold text-white backdrop-blur-sm transition-colors hover:bg-black/55"
+                className="absolute bottom-3 right-3 z-10 flex cursor-pointer items-center gap-1.5 rounded-full border-0 bg-black/40 px-3 py-1.5 t-caption font-semibold text-white backdrop-blur-sm transition-colors hover:bg-black/55"
               >
                 {muted ? (
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
@@ -220,12 +220,12 @@ export function HeroSection() {
                 {muted ? "" : ""}
               </button>
               {paused && (
-                <div className="pointer-events-none absolute left-3 top-3 rounded-full px-3 py-1.5 text-[11px] font-semibold text-white backdrop-blur-sm">
+                <div className="pointer-events-none absolute left-3 top-3 rounded-full px-3 py-1.5 t-caption font-semibold text-white backdrop-blur-sm">
                   {/* Paused */}
                 </div>
               )}
             </div>
-            <div className="mt-3 flex items-center gap-2 text-[12.5px] text-ink-soft">
+            <div className="mt-3 flex items-center gap-2 t-caption text-ink-soft">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#42c8c8" strokeWidth="2" strokeLinecap="round">
                 <circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/>
               </svg>

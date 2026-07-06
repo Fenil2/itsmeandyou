@@ -175,7 +175,7 @@ export function StoriesSection() {
                     onPause={handleStoryStop}
                     onEnded={handleStoryStop}
                   />
-                  <div className="pointer-events-none absolute left-3.5 top-3.5 flex h-6 w-6 items-center justify-center rounded-full bg-white/15 text-[10px] font-bold text-white backdrop-blur-sm">
+                  <div className="pointer-events-none absolute left-3.5 top-3.5 flex h-6 w-6 items-center justify-center rounded-full bg-white/15 t-caption font-bold text-white backdrop-blur-sm">
                     {i + 1}
                   </div>
                 </div>
@@ -206,14 +206,14 @@ export function StoriesSection() {
             ))}
           </div>
           <div className="mx-auto mt-7 flex max-w-[625px] items-center gap-4 rounded-[18px] border border-teal/15 bg-mist/70 px-5 py-3 text-left max-[760px]:gap-2.5 max-[760px]:px-3.5 max-[760px]:py-2.5">
-            <p className="min-w-0 flex-1 text-sm font-semibold leading-[1.45] text-ink max-[760px]:text-[11px]">
+            <p className="min-w-0 flex-1 t-small font-semibold leading-[1.45] text-ink">
               For the full video and more doctor guidance, watch it on Instagram.
             </p>
             <a
               href="https://www.instagram.com/dr.preethimrinalini?igsh=YWkzdmlsc3l0aWF5"
               target="_blank"
               rel="noopener noreferrer"
-              className="shrink-0 rounded-full bg-teal-deep px-4 py-2.5 text-[11px] font-extrabold leading-none text-white transition-colors hover:bg-teal max-[760px]:px-3 max-[760px]:py-2 max-[760px]:text-[10px]"
+              className="shrink-0 rounded-full bg-teal-deep px-4 py-2.5 t-caption font-extrabold leading-none text-white transition-colors hover:bg-teal max-[760px]:px-3 max-[760px]:py-2"
             >
               View full video
             </a>
