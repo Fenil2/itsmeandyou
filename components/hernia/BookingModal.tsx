@@ -154,6 +154,9 @@ export function BookingModal() {
   const [cartExpanded, setCartExpanded] = useState(true);
 
   const dropdownWrap = useRef<HTMLDivElement>(null);
+  // Guards against saving more than one lead per checkout attempt (e.g. a
+  // "payment.failed" followed by the user dismissing the modal).
+  const settledRef = useRef(false);
 
   function resetAll() {
     setStep("service");
@@ -163,6 +166,7 @@ export function BookingModal() {
     setYear(now.getFullYear()); setMonth(now.getMonth());
     setForm({ firstName: "", lastName: "", email: "", phone: "" });
     setSubmitting(false); setSubmitError(""); setCartExpanded(true);
+    settledRef.current = false;
   }
 
   // open on any #book link
@@ -258,11 +262,52 @@ export function BookingModal() {
     if (i > 0) setStep(STEPS[i - 1]);
   }
 
+  // Records the lead in the database with the given payment status. Reused by
+  // the paid, cancelled ("Unpaid") and failed ("Failed") paths.
+  async function postSubmission(paymentStatus: string, paymentId = "") {
+    if (!service || !employee || !day || !time) return false;
+    try {
+      const res = await fetch("/api/submissions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          source: "ItsMeAndYou-Booking",
+          firstName: form.firstName,
+          lastName: form.lastName,
+          email: form.email,
+          phone: form.phone,
+          location: CLINIC,
+          dateKey: `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`,
+          appointmentDate: `${selDayName}, ${MONTHS[month]} ${day}, ${year}`,
+          appointmentTime: time,
+          symptomType: service.name,       // service booked
+          hadSurgery: money(service.price), // amount
+          prevConsult: employee.name,       // therapist
+          pageUrl: window.location.href,
+          paymentId,
+          paymentStatus,
+        }),
+      });
+      return res.ok;
+    } catch {
+      return false;
+    }
+  }
+
+  // Save an abandoned/failed checkout as a lead, but only once per attempt and
+  // never after a successful payment has already been recorded.
+  function recordUnfinishedLead(paymentStatus: string) {
+    if (settledRef.current) return;
+    settledRef.current = true;
+    void postSubmission(paymentStatus);
+  }
+
   // Payment step → create a Razorpay order, open Checkout, then verify + record.
   async function confirmBooking() {
     if (!service || !employee || !day || !time) return;
     setSubmitting(true);
     setSubmitError("");
+    settledRef.current = false;
     try {
       // 1. Create the order server-side (price is validated on the server).
       const orderRes = await fetch("/api/razorpay/order", {
@@ -300,12 +345,15 @@ export function BookingModal() {
         modal: {
           ondismiss: () => {
             setSubmitting(false);
-            setSubmitError("Payment was cancelled. You can try again.");
+            // User closed the checkout without paying → save the lead as unpaid.
+            recordUnfinishedLead("Unpaid");
+            setSubmitError("Payment was cancelled. Your details have been saved — we'll reach out to help.");
           },
         },
       });
       rzp.on("payment.failed", (resp) => {
         setSubmitting(false);
+        recordUnfinishedLead("Failed");
         setSubmitError(resp?.error?.description || "Payment failed. Please try again.");
       });
       rzp.open();
@@ -319,6 +367,8 @@ export function BookingModal() {
   // the booking and send the user to the thank-you page.
   async function finalizeBooking(payment: RazorpaySuccess) {
     if (!service || !employee || !day || !time) return;
+    // Payment succeeded → block any "Unpaid"/"Failed" lead from also being saved.
+    settledRef.current = true;
     try {
       const verifyRes = await fetch("/api/razorpay/verify", {
         method: "POST",
@@ -330,28 +380,8 @@ export function BookingModal() {
         throw new Error("Payment could not be verified. Please contact support.");
       }
 
-      const res = await fetch("/api/submissions", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          source: "ItsMeAndYou-Booking",
-          firstName: form.firstName,
-          lastName: form.lastName,
-          email: form.email,
-          phone: form.phone,
-          location: CLINIC,
-          dateKey: `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`,
-          appointmentDate: `${selDayName}, ${MONTHS[month]} ${day}, ${year}`,
-          appointmentTime: time,
-          symptomType: service.name,       // service booked
-          hadSurgery: money(service.price), // amount
-          prevConsult: employee.name,       // therapist
-          pageUrl: window.location.href,
-          paymentId: payment.razorpay_payment_id,
-          paymentStatus: "Paid",
-        }),
-      });
-      if (!res.ok) throw new Error("Submission failed");
+      const ok = await postSubmission("Paid", payment.razorpay_payment_id);
+      if (!ok) throw new Error("Submission failed");
       router.push("/thank-you");
     } catch (err) {
       setSubmitError(

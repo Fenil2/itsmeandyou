@@ -309,8 +309,12 @@ export async function POST(req: NextRequest) {
     try { appendLocalRow(row); }
     catch (csvErr) { console.warn('Local CSV save skipped:', (csvErr as Error).message); }
 
-    try { recordBookedSlot(body.dateKey, body.appointmentTime); }
-    catch (slotErr) { console.warn('Slot record skipped:', (slotErr as Error).message); }
+    // Only a paid booking reserves the slot — abandoned/unpaid leads must not
+    // block the calendar for other clients.
+    if (body.paymentStatus === 'Paid') {
+      try { recordBookedSlot(body.dateKey, body.appointmentTime); }
+      catch (slotErr) { console.warn('Slot record skipped:', (slotErr as Error).message); }
+    }
 
     try { await pushToGAS(body, timestamp, telecrmStatus); }
     catch (gasErr) { console.warn('GAS sync skipped:', (gasErr as Error).message); }

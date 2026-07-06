@@ -69,6 +69,25 @@ function Field({
   );
 }
 
+function PaymentBadge({ status }: { status?: string | null }) {
+  const value = (status || "").trim();
+  const key = value.toLowerCase();
+  const styles =
+    key === "paid"
+      ? "border-[#126e6e]/20 bg-[#e3f9f9] text-[#126e6e]"
+      : key === "unpaid"
+        ? "border-[#e0912f]/30 bg-[#fff3e0] text-[#b5701c]"
+        : key === "failed"
+          ? "border-[#c0392b]/25 bg-[#fdecea] text-[#c0392b]"
+          : "border-[#d7eeee] bg-[#eef4f4] text-[#5b7676]";
+  return (
+    <span className={`inline-flex w-fit items-center gap-1.5 rounded-full border px-2.5 py-0.5 t-caption font-bold uppercase tracking-wide ${styles}`}>
+      <span className="h-1.5 w-1.5 rounded-full bg-current" />
+      {value || "Unknown"}
+    </span>
+  );
+}
+
 function fmt(date: Date) {
   return date.toLocaleString("en-IN", {
     timeZone: "Asia/Kolkata",
@@ -173,7 +192,7 @@ export default async function AdminDashboard({
   }).length;
 
   const bookedCount = submissions.filter(
-    (item) => item.appointmentDate && item.appointmentTime,
+    (item) => item.paymentStatus === "Paid" && item.appointmentDate && item.appointmentTime,
   ).length;
 
   const filteredSubmissions = submissions.filter((item) => {
@@ -309,9 +328,12 @@ export default async function AdminDashboard({
                         {getInitials(item.firstName, item.lastName)}
                       </div>
                       <div>
-                        <h3 className="t-h4 font-bold text-[#126e6e]">
-                          {[item.firstName, item.lastName].filter(Boolean).join(" ")}
-                        </h3>
+                        <div className="flex flex-wrap items-center gap-2">
+                          <h3 className="t-h4 font-bold text-[#126e6e]">
+                            {[item.firstName, item.lastName].filter(Boolean).join(" ")}
+                          </h3>
+                          <PaymentBadge status={item.paymentStatus} />
+                        </div>
                         <p className="mt-1 t-small font-semibold text-[#5b7676]">
                           {fmt(item.createdAt)}
                         </p>
@@ -377,6 +399,10 @@ export default async function AdminDashboard({
                       <Field label="Therapist" value={item.prevConsult} />
                       <Field label="Service" value={item.symptomType} />
                       <Field label="Amount" value={item.hadSurgery} />
+                      <Field
+                        label="Payment"
+                        value={[item.paymentStatus, item.paymentId].filter(Boolean).join(" · ")}
+                      />
                       <Field
                         label="Appointment"
                         value={[item.appointmentDate, item.appointmentTime]
