@@ -42,18 +42,6 @@ const SERVICES = [
     )
   },
   { 
-    name: "Child Psychology", 
-    desc: "Gentle emotional support and behavioural guidance tailored for children and their families.", 
-    tone: "#1c8f88",
-    svg: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-8 w-8">
-        <circle cx="12" cy="8" r="4" />
-        <path d="M5.5 16c.5-2 3-3 6.5-3s6 1 6.5 3" />
-        <path d="M5.5 20c.5-2 3-3 6.5-3s6 1 6.5 3" />
-      </svg>
-    )
-  },
-  { 
     name: "Couples Therapy", 
     desc: "Helping couples reconnect, heal emotional wounds and strengthen their bond together.", 
     tone: "#6fc9c2",
