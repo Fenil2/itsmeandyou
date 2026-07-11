@@ -1,3 +1,7 @@
+"use client";
+
+import { useEffect, useRef } from "react";
+
 const TRUST = [
   { num: "50+", label: "Therapists Across India" },
   { num: "1000+", label: "Sessions Completed" },
@@ -10,6 +14,57 @@ const btnGhost =
   "inline-block cursor-pointer rounded-full border border-[rgba(23,86,91,0.28)] bg-transparent px-9 py-[15px] text-center t-btn text-[#17565b] transition hover:-translate-y-px hover:border-[#1c8f88] hover:text-[#1c8f88] max-sm:basis-full";
 
 export function Hero() {
+  const videoRefs = useRef<Array<HTMLVideoElement | null>>([]);
+
+  useEffect(() => {
+    const unmute = () => {
+      videoRefs.current.forEach((video) => {
+        if (!video) return;
+        video.muted = false;
+        video.volume = 1;
+        void video.play();
+      });
+      removeListeners();
+    };
+
+    const events = ["pointerdown", "keydown", "touchstart", "scroll"] as const;
+    const removeListeners = () => {
+      events.forEach((evt) => window.removeEventListener(evt, unmute));
+    };
+
+    // Try to autoplay with sound immediately. Browsers only allow this when the
+    // user has already engaged with the site; otherwise the promise rejects and
+    // we fall back to unmuting on the first interaction.
+    let unmutedAutoplayWorked = false;
+    Promise.all(
+      videoRefs.current.map((video) => {
+        if (!video) return Promise.resolve();
+        video.muted = false;
+        video.volume = 1;
+        return video.play();
+      }),
+    )
+      .then(() => {
+        unmutedAutoplayWorked = true;
+      })
+      .catch(() => {
+        // Blocked by autoplay policy: re-mute so the video at least plays,
+        // then wait for a user gesture to turn the sound on.
+        videoRefs.current.forEach((video) => {
+          if (!video) return;
+          video.muted = true;
+          void video.play();
+        });
+        if (!unmutedAutoplayWorked) {
+          events.forEach((evt) =>
+            window.addEventListener(evt, unmute, { once: true, passive: true }),
+          );
+        }
+      });
+
+    return removeListeners;
+  }, []);
+
   return (
     <section className="relative grid min-h-[100svh] place-items-center overflow-hidden bg-[#fbfaf6] px-[clamp(20px,5vw,40px)] pb-[clamp(56px,9vw,80px)] pt-[clamp(100px,16vw,128px)]">
       <div className="mx-auto grid w-full max-w-[1280px] grid-cols-1 items-center gap-12 lg:grid-cols-2">
@@ -32,6 +87,9 @@ export function Hero() {
           <div className="mb-8 flex items-center justify-center lg:hidden">
             <div className="w-full max-w-[400px] overflow-hidden rounded-2xl shadow-[0_20px_60px_-20px_rgba(23,86,91,0.4)]">
               <video
+                ref={(el) => {
+                  videoRefs.current[0] = el;
+                }}
                 src="/itsvideo.mp4"
                 className="h-full w-full object-cover"
                 autoPlay
@@ -66,7 +124,10 @@ export function Hero() {
         <div className="relative hidden items-center justify-center lg:flex">
           <div className="w-full max-w-[560px] overflow-hidden rounded-2xl shadow-[0_20px_60px_-20px_rgba(23,86,91,0.4)]">
             <video
-              src="/itsvideo.mp4"
+              ref={(el) => {
+                videoRefs.current[1] = el;
+              }}
+              src="https://res.cloudinary.com/dvj4ktxgl/video/upload/v1783771781/vslits_n3laze.mp4"
               className="h-full w-full object-cover"
               autoPlay
               loop
@@ -75,7 +136,7 @@ export function Hero() {
               controls
               poster="/images/hero-poster.jpg"
             >
-              <source src="/itsvideo.mp4" type="video/mp4" />
+              <source src="https://res.cloudinary.com/dvj4ktxgl/video/upload/v1783771781/vslits_n3laze.mp4" type="video/mp4" />
               Your browser does not support the video tag.
             </video>
           </div>
