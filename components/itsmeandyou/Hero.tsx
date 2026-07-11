@@ -17,13 +17,37 @@ export function Hero() {
   const videoRefs = useRef<Array<HTMLVideoElement | null>>([]);
 
   useEffect(() => {
-    const unmute = () => {
+    // Only one of the two <video> elements is on screen at a time (the other is
+    // display:none via the responsive breakpoint). A hidden video keeps playing
+    // its audio, which is what caused the doubled sound and audio that kept
+    // running after pausing the visible player. So we always mute+pause the
+    // hidden one and only ever unmute the visible one.
+    const isVisible = (video: HTMLVideoElement) => video.offsetParent !== null;
+
+    const forEachVideo = (fn: (video: HTMLVideoElement) => void) => {
       videoRefs.current.forEach((video) => {
-        if (!video) return;
+        if (video) fn(video);
+      });
+    };
+
+    // Silence and pause any off-screen video so only the visible player sounds.
+    const muteHidden = () => {
+      forEachVideo((video) => {
+        if (!isVisible(video)) {
+          video.muted = true;
+          video.pause();
+        }
+      });
+    };
+
+    const unmute = () => {
+      forEachVideo((video) => {
+        if (!isVisible(video)) return;
         video.muted = false;
         video.volume = 1;
         void video.play();
       });
+      muteHidden();
       removeListeners();
     };
 
@@ -32,13 +56,13 @@ export function Hero() {
       events.forEach((evt) => window.removeEventListener(evt, unmute));
     };
 
-    // Try to autoplay with sound immediately. Browsers only allow this when the
-    // user has already engaged with the site; otherwise the promise rejects and
-    // we fall back to unmuting on the first interaction.
+    // Try to autoplay the visible video with sound immediately. Browsers only
+    // allow this when the user has already engaged with the site; otherwise the
+    // promise rejects and we fall back to unmuting on the first interaction.
     let unmutedAutoplayWorked = false;
     Promise.all(
       videoRefs.current.map((video) => {
-        if (!video) return Promise.resolve();
+        if (!video || !isVisible(video)) return Promise.resolve();
         video.muted = false;
         video.volume = 1;
         return video.play();
@@ -46,15 +70,17 @@ export function Hero() {
     )
       .then(() => {
         unmutedAutoplayWorked = true;
+        muteHidden();
       })
       .catch(() => {
-        // Blocked by autoplay policy: re-mute so the video at least plays,
-        // then wait for a user gesture to turn the sound on.
-        videoRefs.current.forEach((video) => {
-          if (!video) return;
+        // Blocked by autoplay policy: re-mute the visible video so it at least
+        // plays, then wait for a user gesture to turn the sound on.
+        forEachVideo((video) => {
+          if (!isVisible(video)) return;
           video.muted = true;
           void video.play();
         });
+        muteHidden();
         if (!unmutedAutoplayWorked) {
           events.forEach((evt) =>
             window.addEventListener(evt, unmute, { once: true, passive: true }),
@@ -62,7 +88,14 @@ export function Hero() {
         }
       });
 
-    return removeListeners;
+    // If the viewport crosses the lg breakpoint the visible/hidden videos swap,
+    // so re-silence whichever one is now off screen.
+    window.addEventListener("resize", muteHidden, { passive: true });
+
+    return () => {
+      removeListeners();
+      window.removeEventListener("resize", muteHidden);
+    };
   }, []);
 
   return (
