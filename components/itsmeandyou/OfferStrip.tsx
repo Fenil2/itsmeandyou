@@ -19,7 +19,7 @@ export function OfferStrip() {
         <span className="h-1.5 w-1.5 rounded-full bg-[#40bcb7]"></span>
         
         {/* Original price */}
-        <span className="text-base font-light text-[#9a9a90] line-through">₹500</span>
+        <span className="text-base font-light text-[#9a9a90] line-through">₹700</span>
         
         {/* Dot separator */}
         <span className="h-1.5 w-1.5 rounded-full bg-[#40bcb7]"></span>

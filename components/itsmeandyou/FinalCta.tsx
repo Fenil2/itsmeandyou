@@ -6,7 +6,7 @@ export function FinalCta() {
       </h2>
       <p className="mb-9 t-body text-[#5c6b6b]">Your healing journey starts with one small, brave step.</p>
       <div className="mb-8 flex items-baseline justify-center gap-2.5">
-        <span className="t-body text-[#9a9a90] line-through">Rs 500</span>
+        <span className="t-body text-[#9a9a90] line-through">Rs 700</span>
         <span className="font-cormorant t-h2 text-[#17565b]">Rs 299</span>
       </div>
       <a
