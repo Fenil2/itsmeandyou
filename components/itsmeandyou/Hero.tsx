@@ -90,16 +90,16 @@ export function Hero() {
                 ref={(el) => {
                   videoRefs.current[0] = el;
                 }}
-                src="/itsvideo.mp4"
+                src="https://res.cloudinary.com/dvj4ktxgl/video/upload/v1783771781/vslits_n3laze.mp4"
                 className="h-full w-full object-cover"
                 autoPlay
                 loop
                 muted
                 playsInline
                 controls
-                poster="/images/hero-poster.jpg"
+                poster="https://res.cloudinary.com/dvj4ktxgl/video/upload/so_0/v1783771781/vslits_n3laze.jpg"
               >
-                <source src="/itsvideo.mp4" type="video/mp4" />
+                <source src="https://res.cloudinary.com/dvj4ktxgl/video/upload/v1783771781/vslits_n3laze.mp4" type="video/mp4" />
                 Your browser does not support the video tag.
               </video>
             </div>
@@ -134,7 +134,7 @@ export function Hero() {
               muted
               playsInline
               controls
-              poster="/images/hero-poster.jpg"
+              poster="https://res.cloudinary.com/dvj4ktxgl/video/upload/so_0/v1783771781/vslits_n3laze.jpg"
             >
               <source src="https://res.cloudinary.com/dvj4ktxgl/video/upload/v1783771781/vslits_n3laze.mp4" type="video/mp4" />
               Your browser does not support the video tag.

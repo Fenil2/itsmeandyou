@@ -80,11 +80,11 @@ export function Services() {
         title={<>Support For Your<br /><em className="italic text-[#1c8f88]">Emotional Wellness</em></>}
       />
 
-      <div className="mx-auto grid max-w-[1120px] grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
+      <div className="mx-auto grid max-w-[1120px] grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-6">
         {SERVICES.map((s) => (
           <div
             key={s.name}
-            className="group rounded-[20px] border border-[rgba(64,188,183,0.18)] bg-[#fbfaf6] px-7 py-8 transition-all duration-300 hover:-translate-y-1 hover:border-[rgba(64,188,183,0.4)] hover:shadow-[0_12px_40px_rgba(23,86,91,0.12)]"
+            className="group rounded-[20px] border border-[rgba(64,188,183,0.18)] bg-[#fbfaf6] px-7 py-8 transition-all duration-300 hover:-translate-y-1 hover:border-[rgba(64,188,183,0.4)] hover:shadow-[0_12px_40px_rgba(23,86,91,0.12)] xl:col-span-2 xl:nth-4:col-start-2"
           >
             {/* Icon container */}
             <div 
