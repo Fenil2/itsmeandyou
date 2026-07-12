@@ -21,7 +21,7 @@ export default function PrivacyPolicyPage() {
 
             <div className="space-y-6 t-body leading-7 text-[#4a6060]">
               <section>
-                <h2 className="mb-2 t-h4 font-bold text-[#126e6e]">1. Information We Collect</h2>
+                <h2 className="mb-2 t-h4 font-bold text-[#126e6e]">1. Informations We Collect</h2>
                 <p>When you submit a consultation request on this website, we collect your name, phone number, and the health concern you have shared. We may also collect your IP address and browser information automatically through standard web technologies.</p>
               </section>
               <section>
